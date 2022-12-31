@@ -2,6 +2,8 @@ import javax.swing.JOptionPane;   //parte de la API de Java
 public class Sesion3 {
 
 	public static void main(String[] args) {
+		
+		/*
 		// TODO Auto-generated method stub
 		//estatura de una persona
 		float estaturaVal=1.68f;
@@ -42,6 +44,9 @@ public class Sesion3 {
 		/*
 		 * Para saber cual numero es el que le corresponde
 		 */
+		
+		
+		/*
 		System.out.println(JOptionPane.PLAIN_MESSAGE);
 		System.out.println(JOptionPane.ERROR_MESSAGE);
 		System.out.println(JOptionPane.INFORMATION_MESSAGE);
@@ -89,6 +94,15 @@ public class Sesion3 {
 		int k=5;
 		float a =k/2.5f;
 		System.out.println(a);
+		*/
+		int n=4;
+		int suma=n;
+		int n2=0;
+		while(n2!=n+1){
+			suma+=n2;
+			n++;}
+		System.out.println(suma);
+		
 		
 		
 

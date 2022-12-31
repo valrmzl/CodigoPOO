@@ -4,29 +4,30 @@ import java.time.LocalDate;
 
 import javax.swing.JOptionPane;
 
-public class Date {
-	
-	public static final int MIN_YEAR, MAX_YEAR;
-	//variables declaradas para ejercicio 1 
-	public static final String M_1="Enero";
-	public static final String M_2="Febrero";
-	public static final String M_3="Marzo";
-	public static final String M_4="Abril";
-	public static final String M_5="Mayo";
-	public static final String M_6="Junio";
-	public static final String M_7="Julio";
-	public static final String M_8="Agosto";
-	public static final String M_9="Septiembre";
-	public static final String M_10="Octubre";
-	public static final String M_11="Noviembre";
-	public static final String M_12="Diciembre";
-	public static final String[] arryMonths= {M_1,M_2,M_3,M_4,M_5,M_6,M_7,M_8,M_9,M_10,M_11,M_12};
+public class Date implements Comparable<Date>{
 	
 	
+public static final int MIN_YEAR, MAX_YEAR;
 	
+	public static final String ENE = "Enero";
+	public static final String FEB = "Febrero";
+	public static final String MAR = "Marzo";
+	public static final String ABR = "Abril";
+	public static final String MAY = "Mayo";
+	public static final String JUN = "Junio";
+	public static final String JUL = "Julio";
+	public static final String AGO = "Agosto";
+	public static final String SEP = "Septiembre";
+	public static final String OCT = "Octubre";
+	public static final String NOV = "Noviembre";
+	public static final String DEC = "Diciembre";
+	
+	// guardar finals para consulta
+	// DEBE SER STATIC FINAL para que no se modifique y para que sea un solo objeto
+	public static final String[] monthArray = {ENE, FEB, MAR, ABR, MAY, JUN, JUL, AGO, SEP, OCT, NOV, DEC};
 	
 	private int    day = 1, month = 1, year = 2017;
-	//private String monthName = "Enero";
+	// private String monthName = "Enero";
 	private int    format = 0;
 	
 	static {
@@ -34,18 +35,9 @@ public class Date {
 		MAX_YEAR = Integer.parseInt(JOptionPane.showInputDialog("Año final:"));
 	}
 	
-	
-	
 	public Date() {
 		toSystemDate();
 	}
-	
-	public void toSystemDate() {
-      LocalDate today= LocalDate.now();
-      setDay(today.getDayOfMonth());
-      setMonth(today.getMonthValue());
-      setYear(today.getYear());
-  }
 
 	public Date(int day, int month, int year) {
 		setYear(year);
@@ -53,20 +45,48 @@ public class Date {
 		setDay(day);
 	}
 
-
 	public Date(int day, int month, int year, int format) {
 		this(day, month, year);
 		setFormat(format);
 	}
 
+	public int compareTo(Date date) {
+		if(getYear()< date.getYear()) return -1;
+		if(getYear() == date.getYear() && getMonth() < date.getMonth()) return -1;
+		if(getYear() == date.getYear() && getMonth() == date.getMonth() && getDay()< date.getDay()) return -1;
+		if(getYear() == date.getYear() && getMonth() == date.getMonth() && getDay() == date.getDay()) return 0;
+		return 1;
+	}
 	public int getDay() {
 		return this.day;
 	}
+	
+	public static int random(int a, int b) {
+		return a+ (int)((b-a*1) *(Math.random()));
+	}
+	
+	public static Date randomDate() {
+		int dd = random(1,28);
+		int mm = random(1,12);
+		int yy = random(1900,2100);
+		return new Date(dd,mm,yy);
+	}
+	@Override
+	public int hashCode() {
+		return day+month*32+year*385;
+	}
 
+	public void toSystemDate() {
+//		Usar LocalDate
+		LocalDate today= LocalDate.now();
+		setDay(today.getDayOfMonth());
+		setMonth(today.getMonthValue());
+		setYear(today.getYear());
+	}
+	
 	public void setDay(int day) {
-		if(isValidDate(day,this.month,this.year))
+		if(isValidDate(day, this.month, this.year))
 			this.day = day;
-
 	}
 
 	public int getMonth() {
@@ -74,10 +94,11 @@ public class Date {
 	}
 
 	public void setMonth(int month) {
-		if(isValidDate(this.day,month,this.year)){
+		if(isValidDate(this.day, month, this.year)) {
 			this.month = month;
-			//this.monthName=arryMonths[this.month-1];
+		
 		}
+			
 	}
 
 	public int getYear() {
@@ -85,7 +106,7 @@ public class Date {
 	}
 
 	public void setYear(int year) {
-		if(isValidDate(this.day,this.month,year))
+		if(isValidDate(this.day, this.month, year))
 			this.year = year;
 	}
 
@@ -98,8 +119,7 @@ public class Date {
 	}
 	
 	public String getMonthName() {
-		//return this.monthName;
-		return arryMonths[this.month-1];
+		return monthArray[this.month-1];
 	}
 	
 	public String toString() {
@@ -108,10 +128,10 @@ public class Date {
 				                             this.day, this.month,this.year % 100);
 
 			case 1  : return String.format("%d-%s-%d", 
-			                 this.day, arryMonths[this.month-1].substring(0, 3), this.year);
+			                 this.day, this.monthArray[this.month-1].substring(0, 3), this.year);
 
 			default : return String.format("%d de %s de %d", 
-			                 this.day, arryMonths[this.month-1].toLowerCase(),   this.year);
+			                 this.day, this.monthArray[this.month-1].toLowerCase(),   this.year);
 		}
 	}
 	
@@ -126,7 +146,6 @@ public class Date {
 	}
 	
 	public void next() {
-		
 		int dd = this.day;
 		int mm = this.month;
 		int yy = this.year;
@@ -145,7 +164,6 @@ public class Date {
 		this.day = dd;
 		setMonth(mm);
 		this.year = yy;
-	
 	}
 	
 	public static boolean isLeap(int year) {
@@ -168,18 +186,22 @@ public class Date {
 				return true;
 		}
 		return false;
-		
-	}	
-	
-	
-	public void m5() {
-		System.out.println("m5 de date");
 	}
 	
 	
+	public void m5() {
+		System.out.println("m5 de Date");
+	}
+	
 	public void m6() {
-		System.out.println("m6 de date");
+		System.out.println("m6 de Date");
 		m5();
+	}
+	
+	public static void main(String[] args) {
+		Date d = new Date(15, 6, 1987);
+	d.setFormat(2);
+	System.out.println(d);
 	}
 
 	

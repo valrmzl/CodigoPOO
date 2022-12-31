@@ -22,6 +22,8 @@ public class TestDate {
 		System.out.println(d3);
 		System.out.println(d4);
 		System.out.println(d2.getMonthName());
+		System.out.println("repaso");
+		System.out.println(Date.isValidDate(29,2,1500));
 		
 		//String m2=d2.getMonthName();
 		//String m3=d3.getMonthName();
